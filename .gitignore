@@ -1,0 +1,18 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.env
+.env.*
+.vscode/
+*.sqlite3
+*.db
+*.db.corrupt
+*.log
+.DS_Store
+Thumbs.db
