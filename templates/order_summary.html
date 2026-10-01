@@ -1,15 +1,10 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sipariş Özeti</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body class="bg-light">
-  <div class="container py-4">
-    <div class="card shadow-sm mx-auto" style="max-width:800px">
+{% extends 'base.html' %}
+
+{% block title %}Sipariş Özeti{% endblock %}
+
+{% block content %}
+  <div class="container pb-5">
+    <div class="card shadow-sm mx-auto summary-panel">
       <div class="card-body">
         <h3 class="card-title">Sipariş Özeti</h3>
         <p class="text-muted">Masa: <strong>{{ masa }}</strong></p>
@@ -20,12 +15,17 @@
               <tr><th>Ürün</th><th>Adet</th><th>Birim</th><th>Tutar</th></tr>
             </thead>
             <tbody>
-              {% for i in range(urunler|length) %}
+              {% for line in lines %}
               <tr>
-                <td>{{ urunler[i]|title }}</td>
-                <td>{{ adetler[i] }}</td>
-                <td>{{ menu[urunler[i]] }} TL</td>
-                <td>{{ menu[urunler[i]] * adetler[i] }} TL</td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <img class="summary-thumb" src="{{ url_for('static', filename='menu/' + menu_images[line.name]) }}" alt="">
+                    <span>{{ line.name|title }}</span>
+                  </div>
+                </td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.unit_price }} TL</td>
+                <td>{{ line.line_total }} TL</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -33,12 +33,10 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-3">
-          <a class="btn btn-secondary" href="/">Yeni sipariş</a>
+          <a class="btn btn-secondary" href="{{ url_for('main.index') }}">Yeni sipariş</a>
           <div class="fs-5">Toplam: <strong>{{ toplam }} TL</strong></div>
         </div>
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
